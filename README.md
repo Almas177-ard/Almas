@@ -25,10 +25,13 @@ GRANT ALL PRIVILEGES ON activon.* TO 'activon'@'localhost';
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 cp .env.example .env
-# .env ichida DATABASE_URL, BOT_TOKEN, WEBAPP_URL (HTTPS),
-# ADMIN_TELEGRAM_IDS, SESSION_SECRET, FIELD_ENCRYPTION_KEY ni kiriting.
+# .env ichida DB_HOST/DB_PORT/DB_NAME/DB_USER/DB_PASSWORD (yoki DATABASE_URL),
+# BOT_TOKEN, WEBAPP_URL (HTTPS), ADMIN_TELEGRAM_IDS, SESSION_SECRET,
+# FIELD_ENCRYPTION_KEY ni kiriting.
 .venv/bin/python main.py
 ```
+
+Shared hosting'da (masalan XUSS) bazani panel orqali yarating va `.env` ga paneldan olingan `DB_HOST/DB_NAME/DB_USER/DB_PASSWORD` ni yozing — MySQL `root` shart emas, bazaga to'liq huquqli oddiy user yetadi. Eski `.env` da `DATABASE_URL=` qatori bo'lsa, uni o'chiring yoki boshiga `#` qo'ying, chunki to'ldirilgan `DATABASE_URL` `DB_*` qiymatlardan ustun turadi.
 
 Kutubxonalar tizimda bo‘lsa, oddiy `python main.py` yetarli. `main.py` **bitta jarayonda WebApp, Telegram polling bot va qayta urinish fon ishchisini** ishga tushiradi. SQLAlchemy dastlabki MySQL jadvallarini o‘zi yaratadi. Bot uchun bu jarayonni **bitta nusxada** ishlating; MySQL server alohida yuradi. Port `8000` oldiga HTTPS reverse proxy qo‘ying, `WEBAPP_URL=https://sizning-domeningiz/` ni yozing va zarur bo‘lsa BotFather’da WebApp domenini ro‘yxatdan o‘tkazing. `.env`, shifrlash kaliti va MySQL zaxira nusxalarini maxfiy saqlang. `create_all()` faqat yangi bazaga sxema yaratadi; keyingi sxema o‘zgarishlaridan oldin backup va tekshirilgan migratsiya qiling.
 

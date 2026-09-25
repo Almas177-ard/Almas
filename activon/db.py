@@ -11,7 +11,7 @@ from cryptography.fernet import Fernet
 from .config import config
 from .models import Base, CatalogItem, Setting, User
 
-url = config.database_url or ("sqlite:///./activon-demo.sqlite" if config.demo else "")
+url = config.sqlalchemy_url or ("sqlite:///./activon-demo.sqlite" if config.demo else "")
 engine = create_engine(url, pool_pre_ping=True, connect_args={"check_same_thread": False} if url.startswith("sqlite") else {})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
